@@ -42,7 +42,33 @@ def destroy(id):
 
 @app.route('/edit/<int:id>')
 def edit(id):
-    return render_template('empleados/edit.html')
+    
+    conn= mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM empleados WHERE id=%s", (id))
+    empleados=cursor.fetchall()
+    conn.commit()
+    print(empleados)
+    return render_template('empleados/edit.html', empleados=empleados)
+
+@app.route('/update', methods=['POST'])
+def update():
+
+    _nombre=request.form['txtNombre']
+    _correo=request.form['txtCorreo']
+    _foto=request.files['txtFoto']
+    id=request.form['txtID']
+
+    sql ="UPDATE empleados SET nombre=%s, correo=%s WHERE id=%s ;"
+
+    datos=(_nombre,_correo,id)
+
+    conn= mysql.connect()
+    cursor=conn.cursor()
+    cursor.execute(sql,datos)
+    conn.commit()
+
+    return redirect('/')
 
 
 @app.route('/create')
