@@ -27,8 +27,7 @@ def index():
     print(empleados)
 
     conn.commit()
-
-    return render_template('empleados/index.html', empleados=empleados)
+    return render_template('empleados/index.html', empleados=empleados )
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
@@ -91,7 +90,7 @@ def storage():
         _foto.save("uploads/"+nuevoNombreFoto)
 
 
-    sql ="INSERT INTO `empleados` (`id`, `nombre`, `correo`, `foto`) VALUES (NULL,%s,%s,%s);"
+    sql ="INSERT INTO `empleados` (`id`, `nombre`, `correo`, `foto`) VALUES (NULL,%s, %s, %s);"
 
     datos=(_nombre,_correo,nuevoNombreFoto)
 
@@ -100,7 +99,7 @@ def storage():
     cursor.execute(sql,datos)
     conn.commit()
 
-    return render_template('empleados/index.html')
+    return redirect('/')
 
 
 
