@@ -1,13 +1,11 @@
 from distutils.log import debug
 from unicodedata import name
 from flask import Flask
-from flask import render_template,request,redirect
+from flask import render_template,request,redirect,url_for
 from flaskext.mysql import MySQL
 from flask import send_from_directory
-
 from datetime import datetime
 import os
-
 
 app= Flask(__name__)
 
@@ -17,7 +15,6 @@ app.config['MYSQL_DATABASE_USER']='root'
 app.config['MYSQL_DATABASE_PASSWORD']=''
 app.config['MYSQL_DATABASE_DB']='sistema'
 mysql.init_app(app)
-
 
 CARPETA= os.path.join('uploads')
 app.config['CARPETA']=CARPETA
@@ -52,7 +49,6 @@ def destroy(id):
     cursor.execute("DELETE FROM empleados WHERE id=%s",(id))
     conn.commit()
     return redirect('/')
-
 
 @app.route('/edit/<int:id>')
 def edit(id):
@@ -94,7 +90,6 @@ def update():
         cursor.execute("UPDATE empleados SET foto=%s WHERE id=%s",(nuevoNombreFoto,id))
         conn.commit()
         
-
     cursor.execute(sql,datos)
 
     conn.commit()
